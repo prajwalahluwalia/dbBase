@@ -1,0 +1,59 @@
+/* loginScreen.css */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 1rem; */
+}
+
+.login-form {
+    background: white;
+    padding: 2rem; /* Outer padding of the form */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.error-message {
+    color: #d9534f; /* Bootstrap danger color */
+    margin-bottom: 1rem;
+}
+
+/* Adjust input styles to have padding from the edges */
+.login-input {
+    width: calc(100% - 40px); /* Adjust width to account for padding */
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.login-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.login-button {
+    width: 20%; /* Adjust width to account for padding */
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 40px;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}

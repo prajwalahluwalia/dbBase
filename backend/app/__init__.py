@@ -1,22 +1,40 @@
+# app/__init__.py
+import os
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_session import Session
 from redis import Redis
-import os
-from config import Config  # Adjusted for relative import
+from config import Config
+from .routes.auth import auth_bp
+from .routes.routes import main_bp
+from .extensions import db, bcrypt, redis_client, jwt
+from datetime import timedelta
 
-db = SQLAlchemy()
-redis_client = Redis.from_url(os.environ.get('REDIS_URL') or 'redis://redis:6379/0')
+app = Flask(__name__)
+app.config.from_object(Config)
+CORS(app)
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
-    CORS(app)
+app.config['SESSION_TYPE'] = 'redis'
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_USE_SIGNER'] = True
+app.config['SESSION_KEY_PREFIX'] = 'session:'
+app.config['SESSION_REDIS'] = redis_client
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 
-    db.init_app(app)
-    
-    with app.app_context():
-        from . import routes  # Use relative import
-        db.create_all()
+Session(app)
 
-    return app
+db.init_app(app)
+bcrypt.init_app(app)
+jwt.init_app(app)
+
+
+with app.app_context():
+    db.create_all()
+
+app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(main_bp, url_prefix='/api')
+
+if __name__ == '__main__':
+    app.run(debug=True)

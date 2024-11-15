@@ -1,10 +1,98 @@
 [
     {
-        "label": "stringify",
-        "importPath": "frontend.node_modules.flatted.python.flatted",
-        "description": "frontend.node_modules.flatted.python.flatted",
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
         "isExtraImport": true,
-        "detail": "frontend.node_modules.flatted.python.flatted",
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Blueprint",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "session",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "create_access_token",
+        "importPath": "flask_jwt_extended",
+        "description": "flask_jwt_extended",
+        "isExtraImport": true,
+        "detail": "flask_jwt_extended",
+        "documentation": {}
+    },
+    {
+        "label": "jwt_required",
+        "importPath": "flask_jwt_extended",
+        "description": "flask_jwt_extended",
+        "isExtraImport": true,
+        "detail": "flask_jwt_extended",
+        "documentation": {}
+    },
+    {
+        "label": "get_jwt_identity",
+        "importPath": "flask_jwt_extended",
+        "description": "flask_jwt_extended",
+        "isExtraImport": true,
+        "detail": "flask_jwt_extended",
+        "documentation": {}
+    },
+    {
+        "label": "JWTManager",
+        "importPath": "flask_jwt_extended",
+        "description": "flask_jwt_extended",
+        "isExtraImport": true,
+        "detail": "flask_jwt_extended",
         "documentation": {}
     },
     {
@@ -16,11 +104,27 @@
         "documentation": {}
     },
     {
-        "label": "jsonify",
-        "importPath": "flask",
-        "description": "flask",
+        "label": "Bcrypt",
+        "importPath": "flask_bcrypt",
+        "description": "flask_bcrypt",
         "isExtraImport": true,
-        "detail": "flask",
+        "detail": "flask_bcrypt",
+        "documentation": {}
+    },
+    {
+        "label": "Redis",
+        "importPath": "redis",
+        "description": "redis",
+        "isExtraImport": true,
+        "detail": "redis",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -83,30 +187,156 @@
         "documentation": {}
     },
     {
-        "label": "User",
-        "kind": 6,
-        "importPath": "backend.app.models",
-        "description": "backend.app.models",
-        "peekOfCode": "class User(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    username = db.Column(db.String(150), nullable=False, unique=True)\n    password = db.Column(db.String(16), nullable=False)",
-        "detail": "backend.app.models",
+        "label": "login",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth",
+        "description": "backend.app.routes.auth",
+        "peekOfCode": "def login():\n    data = request.json\n    username = data['username']\n    password = data['password']\n    print(\"DATA:\", data, username, password)\n    user = User.query.filter_by(username=username).first()\n    if user and bcrypt.check_password_hash(user.password, password):\n        # Create JWT token\n        access_token = create_access_token(identity=user.id)\n        session['logged_in'] = True",
+        "detail": "backend.app.routes.auth",
         "documentation": {}
     },
     {
-        "label": "db",
+        "label": "signup",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth",
+        "description": "backend.app.routes.auth",
+        "peekOfCode": "def signup():\n    data = request.json\n    username = data.get('username')\n    password = data.get('password')\n    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')\n    user = User(username=username, password=hashed_password)\n    if User.query.filter_by(username=username).first():\n        return jsonify({\"error\": \"Username already taken.\"}), 400\n    db.session.add(user)\n    db.session.commit()",
+        "detail": "backend.app.routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "protected",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth",
+        "description": "backend.app.routes.auth",
+        "peekOfCode": "def protected():\n    current_user_id = get_jwt_identity()  # Get the user identity from the token\n    user = User.query.get(current_user_id)\n    return jsonify(logged_in_as=user.username), 200\n@auth_bp.route('/current_user', methods=['GET'])\n@jwt_required()  # Protected by JWT\ndef current_user():\n    print(session)\n    return jsonify({\"username\": session.get('username')}), 200",
+        "detail": "backend.app.routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "current_user",
+        "kind": 2,
+        "importPath": "backend.app.routes.auth",
+        "description": "backend.app.routes.auth",
+        "peekOfCode": "def current_user():\n    print(session)\n    return jsonify({\"username\": session.get('username')}), 200",
+        "detail": "backend.app.routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "auth_bp",
         "kind": 5,
-        "importPath": "backend.app.models",
-        "description": "backend.app.models",
-        "peekOfCode": "db = SQLAlchemy(app)\nclass User(db.Model):\n    id = db.Column(db.Integer, primary_key=True)\n    username = db.Column(db.String(150), nullable=False, unique=True)\n    password = db.Column(db.String(16), nullable=False)",
-        "detail": "backend.app.models",
+        "importPath": "backend.app.routes.auth",
+        "description": "backend.app.routes.auth",
+        "peekOfCode": "auth_bp = Blueprint('auth', __name__)\n@auth_bp.route('/login', methods=['POST'])\ndef login():\n    data = request.json\n    username = data['username']\n    password = data['password']\n    print(\"DATA:\", data, username, password)\n    user = User.query.filter_by(username=username).first()\n    if user and bcrypt.check_password_hash(user.password, password):\n        # Create JWT token",
+        "detail": "backend.app.routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "def home():\n    print(session)\n    user_id = session.get('user_id')\n    if user_id:\n        # Fetch user-specific data\n        return jsonify({\"message\": f\"Welcome back, user {user_id}!\"}), 200\n    else:\n        return jsonify({\"error\": \"User not logged in.\"}), 401\n@main_bp.route('/userDB', methods=['POST'])\ndef save_user_db():",
+        "detail": "backend.app.routes.routes",
+        "documentation": {}
+    },
+    {
+        "label": "save_user_db",
+        "kind": 2,
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "def save_user_db():\n    data = request.json\n    user_id = data.get('userID')\n    db_name = data.get('dbName')\n    username = data.get('username')\n    password = data.get('password')\n    new_entry = UserDB(user_id=user_id, db_name=db_name, username=username, password=password)\n    db.session.add(new_entry)\n    db.session.commit()\n    return jsonify({\"message\": \"Data saved successfully.\"}), 201",
+        "detail": "backend.app.routes.routes",
+        "documentation": {}
+    },
+    {
+        "label": "get_user_dbs",
+        "kind": 2,
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "def get_user_dbs():\n    user_id = session.get('user_id')  # Get user ID from Redis session\n    print(\"USER ID: \", user_id)\n    if not user_id:\n        return jsonify({\"error\": \"User not logged in.\"}), 401\n    user_dbs = UserDB.query.filter_by(user_id=user_id).all()\n    return jsonify([{\n        'id': db.id,\n        'db_name': db.db_name,\n        'db_username': db.db_username",
+        "detail": "backend.app.routes.routes",
+        "documentation": {}
+    },
+    {
+        "label": "test_redis",
+        "kind": 2,
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "def test_redis():\n    try:\n        redis_client.ping()\n        return {\"message\": \"Connected to Redis!\"}\n    except Exception as e:\n        return {\"error\": \"Failed to connect to Redis.\"}, 500\n@main_bp.route('/app', methods=['GET'])\ndef main():\n    redis_client.set('key', 'Hello from Redis!')\n    redis_value = redis_client.get('key').decode('utf-8')",
+        "detail": "backend.app.routes.routes",
         "documentation": {}
     },
     {
         "label": "main",
         "kind": 2,
-        "importPath": "backend.app.routes",
-        "description": "backend.app.routes",
-        "peekOfCode": "def main():\n    # Using Redis\n    redis_client.set('key', 'Hello from Redis!')\n    redis_value = redis_client.get('key').decode('utf-8')\n    print(redis_value)  # This will log the Redis value to the console\n    # Example response\n    return jsonify({\n        'message': 'Hello from Flask!',\n        'redis_message': redis_value\n    })",
-        "detail": "backend.app.routes",
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "def main():\n    redis_client.set('key', 'Hello from Redis!')\n    redis_value = redis_client.get('key').decode('utf-8')\n    return jsonify({\n        'message': 'Hello from Flask!',\n        'redis_message': redis_value\n    })",
+        "detail": "backend.app.routes.routes",
+        "documentation": {}
+    },
+    {
+        "label": "main_bp",
+        "kind": 5,
+        "importPath": "backend.app.routes.routes",
+        "description": "backend.app.routes.routes",
+        "peekOfCode": "main_bp = Blueprint('main', __name__)\n@main_bp.route('/home', methods=['GET'])\ndef home():\n    print(session)\n    user_id = session.get('user_id')\n    if user_id:\n        # Fetch user-specific data\n        return jsonify({\"message\": f\"Welcome back, user {user_id}!\"}), 200\n    else:\n        return jsonify({\"error\": \"User not logged in.\"}), 401",
+        "detail": "backend.app.routes.routes",
+        "documentation": {}
+    },
+    {
+        "label": "db",
+        "kind": 5,
+        "importPath": "backend.app.extensions",
+        "description": "backend.app.extensions",
+        "peekOfCode": "db = SQLAlchemy()\nbcrypt = Bcrypt()\nredis_client = Redis.from_url('redis://localhost:6379/0')  # Modify as needed\njwt = JWTManager()",
+        "detail": "backend.app.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "bcrypt",
+        "kind": 5,
+        "importPath": "backend.app.extensions",
+        "description": "backend.app.extensions",
+        "peekOfCode": "bcrypt = Bcrypt()\nredis_client = Redis.from_url('redis://localhost:6379/0')  # Modify as needed\njwt = JWTManager()",
+        "detail": "backend.app.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "redis_client",
+        "kind": 5,
+        "importPath": "backend.app.extensions",
+        "description": "backend.app.extensions",
+        "peekOfCode": "redis_client = Redis.from_url('redis://localhost:6379/0')  # Modify as needed\njwt = JWTManager()",
+        "detail": "backend.app.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "jwt",
+        "kind": 5,
+        "importPath": "backend.app.extensions",
+        "description": "backend.app.extensions",
+        "peekOfCode": "jwt = JWTManager()",
+        "detail": "backend.app.extensions",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "backend.app.models",
+        "description": "backend.app.models",
+        "peekOfCode": "class User(db.Model):\n    __tablename__ = 'users'  # Explicitly define the table name\n    id = db.Column(db.Integer, primary_key=True)\n    first_name = db.Column(db.String(100), nullable=False)\n    last_name = db.Column(db.String(100), nullable=False)\n    email = db.Column(db.String(100), unique=True, nullable=False)\n    username = db.Column(db.String(150), nullable=False, unique=True)\n    password = db.Column(db.String(200), nullable=False)  # Increased length for hashed passwords\n    def __repr__(self):\n        return f'<User {self.username}>'",
+        "detail": "backend.app.models",
+        "documentation": {}
+    },
+    {
+        "label": "UserDB",
+        "kind": 6,
+        "importPath": "backend.app.models",
+        "description": "backend.app.models",
+        "peekOfCode": "class UserDB(db.Model):\n    __tablename__ = 'userDB'\n    id = db.Column(db.Integer, primary_key=True)\n    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)\n    db_name = db.Column(db.String(150), nullable=False)\n    db_username = db.Column(db.String(150), nullable=False)\n    db_password = db.Column(db.String(200), nullable=False)  # Hashed password recommended\n    created_at = db.Column(db.DateTime, default=datetime.utcnow)\n    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)\n    deleted_at = db.Column(db.DateTime, nullable=True)",
+        "detail": "backend.app.models",
         "documentation": {}
     },
     {
@@ -123,7 +353,7 @@
         "kind": 6,
         "importPath": "backend.config",
         "description": "backend.config",
-        "peekOfCode": "class Config:\n    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:aassddaa@localhost:3306/ridendropapp'\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://redis:6379/0'",
+        "peekOfCode": "class Config:\n    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:aassddaa@localhost:3306/ridendropapp'\n    SQLALCHEMY_TRACK_MODIFICATIONS = False\n    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://redis:6379/0'\n    SECRET_KEY = os.urandom(32).hex()",
         "detail": "backend.config",
         "documentation": {}
     },
@@ -132,7 +362,7 @@
         "kind": 5,
         "importPath": "backend.run",
         "description": "backend.run",
-        "peekOfCode": "app = create_app()\nif __name__ == \"__main__\":\n    # Run the app\n    app.run(host='0.0.0.0', port=5000, debug=True)",
+        "peekOfCode": "app = create_app()\nif __name__ == '__main__':\n    app.run(debug=True)",
         "detail": "backend.run",
         "documentation": {}
     },

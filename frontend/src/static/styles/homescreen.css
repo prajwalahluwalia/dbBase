@@ -1,0 +1,214 @@
+
+.home-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: row;
+}
+
+/* Left Panel Styles */
+.left-panel {
+    width: 30%;
+    background-color: #03162a; /* Darker background for left panel */
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100%; /* Full height of the container */
+    display: flex;
+    flex-direction: row;
+}
+
+.panel-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px; /* Space below icons */
+    padding-right: 20px;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 10px 0; /* Space between icons */
+    color: #ccc; /* Icon text color */
+}
+
+.icon {
+    font-size: 24px; /* Size of icons */
+    margin-bottom: 5px; /* Space between icon and text */
+}
+
+.icon-text {
+    font-size: 15px; /* Icon text size */
+}
+
+/* Left Panel Items */
+.left-panel-items {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.table-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.tables-list {
+    overflow-y: auto; /* Make tables list scrollable */
+    flex-grow: 1; /* Allow this section to grow */
+    margin-top: 10px;
+}
+
+.table-item {
+    padding: 10px;
+    background-color: #f1f1f1; /* Light background for table items */
+    margin: 5px 0; /* Space between table items */
+}
+
+.button-left{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.add-db-button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #007bff; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 40%;
+}
+
+/* Right Panel Styles */
+.right-panel {
+    width: 70%;
+    padding: 20px;
+    height: 100%; /* Full height of the container */
+    overflow: hidden; /* Prevent overflow scrolling */
+    display: flex;
+    flex-direction: column;
+}
+
+.query-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.run-query-button {
+    padding: 10px 15px;
+    background-color: #28a745; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.query-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+    resize: vertical; /* Allow vertical resizing */
+}
+
+.result-section {
+    flex: 1;
+    background-color: #fff; /* White background for results */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+.download-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 999; /* High z-index to sit above other elements */
+}
+
+.modal {
+    height: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 60%; /* Modal width */
+    background: #fff; /* White background for modal */
+    /* padding: 50px; */
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow for modal */
+}
+
+.modal input, .modal select {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0; /* Space between inputs */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+    flex-direction: column;
+}
+.modal-buttons{
+    width: 100%;
+    display: flex;
+    padding: 30px;
+    align-items: center;
+    text-align: center;
+    justify-content:center;
+}
+.db-type-dropdown {
+    width: 100%; /* Full width */
+    }
+
+.add-db-button{
+    padding: 0.75rem;
+    width: 20%;
+    height: 70%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding-inline: 20px;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+}
+.modal-error{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+/* Error Message */
+.error-message {
+    color: red; /* Red for error messages */
+    margin-top: 10px;
+}
